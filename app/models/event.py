@@ -7,3 +7,4 @@ class Event(rx.Base):
     time: float
     left: Action
     right: Action
+    damage: int

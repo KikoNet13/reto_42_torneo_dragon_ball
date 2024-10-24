@@ -15,10 +15,8 @@ class ActionType(Enum):
 
 
 class Action(rx.Base):
-    time: float
     action_type: ActionType = ActionType.NONE
     value: int = 0
-    done: bool = False
 
     def create_attack(self, attack: int):
         self.action_type = ActionType.ATTACK
@@ -31,6 +29,3 @@ class Action(rx.Base):
         else:
             self.action_type = ActionType.DEFENSE
             self.value = defense
-
-    def do(self):
-        self.done = True
