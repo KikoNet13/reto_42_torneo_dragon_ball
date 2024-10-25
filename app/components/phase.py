@@ -2,7 +2,7 @@ import reflex as rx
 
 
 from app.components.fighter import fighter_card
-from app.components.fight import fight
+from app.components.fight import fight_component
 
 from app.states.phase import PhaseState
 
@@ -22,7 +22,13 @@ def phase() -> rx.Component:
             PhaseState.phase.fighters,
             rx.divider(),
         ),
-        rx.foreach(PhaseState.phase.fights, lambda f: fight(fight=f)),
+        rx.foreach(
+            PhaseState.phase.fights,
+            lambda fight, index: fight_component(
+                fight=fight,
+                index=index,
+            ),
+        ),
         width="inherit",
         align="center",
         spacing="4",

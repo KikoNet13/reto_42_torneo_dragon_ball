@@ -9,7 +9,7 @@ from app.models.event import Event
 class Fight(rx.Base):
     left: FighterInFight | None = None
     right: FighterInFight | None = None
-    winner: Fighter = None
+    winner: Fighter | None = None
     events: list[Event] = []
     simulated: bool = False
 

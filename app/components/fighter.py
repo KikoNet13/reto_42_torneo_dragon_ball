@@ -20,10 +20,10 @@ def fighter_tbd_card() -> rx.Component:
     )
 
 
-def fighter_name(name: str) -> rx.Component:
+def fighter_name(name: str, is_bold: bool = False) -> rx.Component:
     return (
         rx.cond(
-            name.length() % 2 == 0,
+            is_bold,
             rx.text.strong(
                 name,
                 style={"line-height": "1"},
@@ -64,10 +64,10 @@ def fighter_attributes(speed: int, attack: int, defense: int) -> rx.Component:
     )
 
 
-def fighter_left(fighter: Fighter) -> rx.Component:
+def fighter_left(fighter: Fighter, is_bold: bool = False) -> rx.Component:
     return rx.hstack(
         rx.vstack(
-            fighter_name(fighter.name),
+            fighter_name(fighter.name, is_bold),
             fighter_attributes(fighter.speed, fighter.attack, fighter.defense),
             justify="between",
             align="end",
@@ -81,14 +81,14 @@ def fighter_left(fighter: Fighter) -> rx.Component:
     )
 
 
-def fighter_right(fighter: Fighter) -> rx.Component:
+def fighter_right(fighter: Fighter, is_bold: bool = False) -> rx.Component:
     return rx.hstack(
         rx.avatar(
             fallback=fighter.average.to_string(),
             size="4",
         ),
         rx.vstack(
-            fighter_name(fighter.name),
+            fighter_name(fighter.name, is_bold),
             fighter_attributes(fighter.speed, fighter.attack, fighter.defense),
             justify="between",
             align="start",

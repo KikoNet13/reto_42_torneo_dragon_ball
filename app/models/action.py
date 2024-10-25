@@ -4,7 +4,6 @@ from enum import Enum
 from random import random
 
 DODGE_CHANCE = 0.2
-MIN_DAMAGE_RATIO = 0.1
 
 
 class ActionType(Enum):
@@ -15,17 +14,30 @@ class ActionType(Enum):
 
 
 class Action(rx.Base):
+    pace: float = 0
+    speed: int = 0
     action_type: ActionType = ActionType.NONE
     value: int = 0
 
-    def create_attack(self, attack: int):
-        self.action_type = ActionType.ATTACK
-        self.value = attack
+    @classmethod
+    def attack(cls, speed: int, attack: int):
+        pace = round(100 / speed, 2)
+        return cls(
+            pace=pace,
+            speed=speed,
+            action_type=ActionType.ATTACK,
+            value=attack,
+        )
 
-    def create_defense(self, defense: int):
+    @classmethod
+    def defense(cls, defense: int):
         if random() < DODGE_CHANCE:
-            self.action_type = ActionType.DODGE
-            self.value = 0
+            action_type = ActionType.DODGE
+            value = 0
         else:
-            self.action_type = ActionType.DEFENSE
-            self.value = defense
+            action_type = ActionType.DEFENSE
+            value = defense
+        return cls(
+            action_type=action_type,
+            value=value,
+        )

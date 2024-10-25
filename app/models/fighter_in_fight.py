@@ -66,3 +66,9 @@ class FighterInFight(rx.Base):
 
     def _get_speed(self) -> int:
         return randint(self._min_speed, self._max_speed)
+
+    def next_attack(self) -> Action:
+        return Action.attack(self._get_speed(), self._get_attack())
+
+    def next_defense(self) -> Action:
+        return Action.defense(self._get_defense())

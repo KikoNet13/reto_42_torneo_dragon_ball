@@ -8,6 +8,7 @@ from app.state import State, View
 
 class TournamentState(rx.State):
     tournament: Tournament | None = None
+    winner: Fighter | None = None
 
     current_phase_pos: int | None
 
