@@ -21,7 +21,7 @@ class Action(rx.Base):
 
     @classmethod
     def attack(cls, speed: int, attack: int):
-        pace = round(100 / speed, 2)
+        pace = float(f"{100 / speed:.2f}")
         return cls(
             pace=pace,
             speed=speed,

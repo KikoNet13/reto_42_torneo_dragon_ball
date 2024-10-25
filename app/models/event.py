@@ -10,3 +10,7 @@ class Event(rx.Base):
     left: Action
     right: Action
     damage: int
+
+    @property
+    def time_str(self) -> str:
+        return f"{self.time:6.2f}"

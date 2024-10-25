@@ -2,7 +2,7 @@
 
 ## Pendiente
 
-- [03](03.md): Finalizar ronda
+- [03](03.md): Detalles finales
 
 ## Desarrollo
 

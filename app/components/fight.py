@@ -8,53 +8,77 @@ from app.components.fighter import (
     fighter_tbd_card,
 )
 from app.components.fighter_in_fight import fighter_health
+from app.components.event import event
 
 from app.states.fight import FightState
 
 
 def fight_component(fight: Fight, index: int) -> rx.Component:
     return rx.card(
-        rx.hstack(
+        rx.vstack(
             rx.hstack(
-                rx.cond(
-                    fight.left,
-                    fighter_left(
-                        fight.left.fighter,
-                        # Se compara el contenido porque no hay id
-                        fight.left.fighter.to_string() == fight.winner.to_string(),
+                rx.hstack(
+                    rx.cond(
+                        fight.left,
+                        fighter_left(
+                            fight.left.fighter,
+                            # Se compara el contenido porque no hay id
+                            fight.left.fighter.to_string() == fight.winner.to_string(),
+                        ),
+                        fighter_tbd_card(),
                     ),
-                    fighter_tbd_card(),
+                    width="100%",
+                    justify="end",
+                ),
+                rx.center(
+                    rx.button(
+                        rx.icon("swords"),
+                        variant="ghost",
+                        size="2",
+                        on_click=FightState.simulate_fight(index),
+                        disabled=fight.simulated | ~fight.left | ~fight.right,
+                    ),
+                    width="10em",
+                ),
+                rx.hstack(
+                    rx.cond(
+                        fight.right,
+                        fighter_right(
+                            fight.right.fighter,
+                            # Se compara el contenido porque no hay id
+                            fight.right.fighter.to_string() == fight.winner.to_string(),
+                        ),
+                        fighter_tbd_card(),
+                    ),
+                    width="100%",
+                    justify="start",
                 ),
                 width="100%",
-                justify="end",
+                justify="center",
+                align="center",
+                spacing="2",
             ),
-            rx.box(
-                rx.button(
-                    rx.icon("swords"),
-                    variant="ghost",
-                    size="2",
-                    on_click=FightState.simulate_fight(index),
-                    disabled=fight.simulated | ~fight.left | ~fight.right,
-                ),
-                padding_x="2em",
-            ),
-            rx.hstack(
-                rx.cond(
-                    fight.right,
-                    fighter_right(
-                        fight.right.fighter,
-                        # Se compara el contenido porque no hay id
-                        fight.right.fighter.to_string() == fight.winner.to_string(),
+            rx.cond(
+                fight.simulated,
+                rx.fragment(
+                    rx.divider(),
+                    rx.hstack(
+                        fighter_health(fight.left.health, is_left=True),
+                        rx.center(rx.icon("clock"), width="10em"),
+                        fighter_health(fight.right.health, is_left=False),
+                        align="center",
+                        justify="center",
+                        width="100%",
                     ),
-                    fighter_tbd_card(),
+                    rx.scroll_area(
+                        rx.vstack(
+                            rx.foreach(fight.events.reverse(), event),
+                            width="100%",
+                        ),
+                        height="8em",
+                    ),
                 ),
-                width="100%",
-                justify="start",
             ),
-            width="100%",
-            justify="center",
-            align="center",
-            spacing="2",
         ),
         width="100%",
     )

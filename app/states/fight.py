@@ -29,7 +29,9 @@ class FightState(PhaseState):
         if defense.action_type == ActionType.DODGE.value:
             damage = 0
         else:
-            damage = max(attack.value - defense.value, attack.value * MIN_DAMAGE_RATIO)
+            damage = int(
+                max(attack.value - defense.value, attack.value * MIN_DAMAGE_RATIO)
+            )
 
         if left_is_attacking:
             left = attack
@@ -72,29 +74,33 @@ class FightState(PhaseState):
         while not fight.winner:
             if left_time < right_time:
                 current_time = left_time
-                fight.events.append(
-                    self._generate_event(
-                        time=current_time,
-                        attack=left_attack,
-                        defender=fight.right,
-                        left_is_attacking=True,
+                await controlled_sleep(left_attack.pace)
+                async with self:
+                    fight.events.append(
+                        self._generate_event(
+                            time=current_time,
+                            attack=left_attack,
+                            defender=fight.right,
+                            left_is_attacking=True,
+                        )
                     )
-                )
-                yield await controlled_sleep(left_attack.pace)
+                yield
 
                 left_attack = fight.left.next_attack()
                 left_time += left_attack.pace
             else:
                 current_time = right_time
-                fight.events.append(
-                    self._generate_event(
-                        time=current_time,
-                        attack=right_attack,
-                        defender=fight.left,
-                        left_is_attacking=False,
+                await controlled_sleep(right_attack.pace)
+                async with self:
+                    fight.events.append(
+                        self._generate_event(
+                            time=current_time,
+                            attack=right_attack,
+                            defender=fight.left,
+                            left_is_attacking=False,
+                        )
                     )
-                )
-                yield await controlled_sleep(right_attack.pace)
+                yield
 
                 right_attack = fight.right.next_attack()
                 right_time += right_attack.pace

@@ -90,5 +90,10 @@ def index() -> rx.Component:
 
 app = rx.App(
     title="Torneo Dragon Ball",
+    style={
+        ".rt-ScrollAreaViewport > *": {
+            "min-width": "100% !important",
+        }
+    },
 )
 app.add_page(index)
