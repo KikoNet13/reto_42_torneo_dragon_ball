@@ -26,10 +26,8 @@ class FightState(PhaseState):
         left_is_attacking: bool,
     ):
         defense = defender.next_defense()
-        if defense.action_type == ActionType.DODGE.value:
-            damage = 0
-        else:
-            damage = int(
+        if defense.action_type != ActionType.DODGE.value:
+            defense.damage = int(
                 max(attack.value - defense.value, attack.value * MIN_DAMAGE_RATIO)
             )
 
@@ -40,9 +38,9 @@ class FightState(PhaseState):
             left = defense
             right = attack
 
-        defender.health = max(defender.health - damage, 0)
+        defender.health = max(defender.health - defense.damage, 0)
 
-        return Event(time=time, left=left, right=right, damage=damage)
+        return Event(time=time, left=left, right=right)
 
     @rx.background
     async def simulate_fight(self, index: int):
@@ -105,8 +103,6 @@ class FightState(PhaseState):
                 right_attack = fight.right.next_attack()
                 right_time += right_attack.pace
 
-            print_event(fight.events[-1])
-
             self._check_winner(fight=fight)
 
         if next_phase:
@@ -114,9 +110,3 @@ class FightState(PhaseState):
                 next_phase.fighters.append(fight.winner)
         else:
             self.winner = fight.winner
-
-
-def print_event(event: Event):
-    print(
-        f"{event.time:->8.2f}: {event.left.action_type} {event.left.value} vs {event.right.action_type} {event.right.value} - {event.damage}"
-    )

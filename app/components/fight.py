@@ -75,7 +75,7 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                             rx.foreach(fight.events.reverse(), event),
                             width="100%",
                         ),
-                        height="8em",
+                        max_height="20em",
                     ),
                 ),
             ),

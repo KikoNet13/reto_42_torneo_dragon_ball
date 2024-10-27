@@ -18,6 +18,7 @@ class Action(rx.Base):
     speed: int = 0
     action_type: ActionType = ActionType.NONE
     value: int = 0
+    damage: int = 0
 
     @classmethod
     def attack(cls, speed: int, attack: int):

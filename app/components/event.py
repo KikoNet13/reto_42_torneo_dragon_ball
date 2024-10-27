@@ -2,16 +2,17 @@ import reflex as rx
 
 from app.models.event import Event
 
-from app.components.action import action
+from app.components.action import left_action, right_action
 
 
 def event(event: Event) -> rx.Component:
     return rx.hstack(
-        action(event.left, is_left=True),
+        left_action(event.left),
         rx.center(
             rx.text(event.time_str),
             width="10em",
         ),
-        action(event.right, is_left=False),
+        right_action(event.right),
         width="100%",
+        align="center",
     )

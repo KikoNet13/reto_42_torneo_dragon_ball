@@ -1,15 +1,9 @@
 import reflex as rx
-from enum import Enum
 
 from app.models.fighter import Fighter
 from app.models.fighter_in_fight import FighterInFight
 
-
-class Colors(Enum):
-    ATTACK = "red"
-    DEFENSE = "green"
-    SPEED = "yellow"
-    HEALTH = "orange"
+from app.utils.info_badges import INFO_BADGES
 
 
 def fighter_tbd_card() -> rx.Component:
@@ -37,29 +31,21 @@ def fighter_name(name: str, is_bold: bool = False) -> rx.Component:
     )
 
 
+def attribute_badge(attribute: str, value: int) -> rx.Component:
+    return rx.tooltip(
+        rx.badge(
+            value,
+            color_scheme=INFO_BADGES[attribute]["color_scheme"],
+        ),
+        content=INFO_BADGES[attribute]["content"],
+    )
+
+
 def fighter_attributes(speed: int, attack: int, defense: int) -> rx.Component:
     return rx.hstack(
-        rx.tooltip(
-            rx.badge(
-                speed,
-                color_scheme=Colors.SPEED.value,
-            ),
-            content="Velocidad",
-        ),
-        rx.tooltip(
-            rx.badge(
-                attack,
-                color_scheme=Colors.ATTACK.value,
-            ),
-            content="Ataque",
-        ),
-        rx.tooltip(
-            rx.badge(
-                defense,
-                color_scheme=Colors.DEFENSE.value,
-            ),
-            content="Defensa",
-        ),
+        attribute_badge("speed", speed),
+        attribute_badge("attack", attack),
+        attribute_badge("defense", defense),
         spacing="1",
     )
 
