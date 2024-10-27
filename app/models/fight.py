@@ -12,6 +12,7 @@ class Fight(rx.Base):
     winner: Fighter | None = None
     events: list[Event] = []
     simulated: bool = False
+    showed: bool = False
 
     # def do_next_turn(self):
     #     left_action = self.left.next_action()

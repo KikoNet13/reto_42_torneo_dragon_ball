@@ -11,6 +11,8 @@ from app.states.phase import PhaseState
 
 
 class FightState(PhaseState):
+    def toggle_show(self, index: int):
+        self.phase.fights[index].showed = not self.phase.fights[index].showed
 
     def _check_winner(self, fight: Fight) -> None:
         if fight.left.health <= 0:
@@ -50,6 +52,7 @@ class FightState(PhaseState):
 
         fight = self.phase.fights[index]
         fight.simulated = True
+        fight.showed = True
         yield
 
         async def controlled_sleep(pace: float):

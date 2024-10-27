@@ -31,12 +31,25 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                     justify="end",
                 ),
                 rx.center(
-                    rx.button(
-                        rx.icon("swords"),
-                        variant="ghost",
-                        size="2",
-                        on_click=FightState.simulate_fight(index),
-                        disabled=fight.simulated | ~fight.left | ~fight.right,
+                    rx.cond(
+                        fight.simulated,
+                        rx.button(
+                            rx.cond(
+                                fight.showed,
+                                rx.icon("eye-off"),
+                                rx.icon("eye"),
+                            ),
+                            variant="ghost",
+                            size="2",
+                            on_click=FightState.toggle_show(index),
+                        ),
+                        rx.button(
+                            rx.icon("swords"),
+                            variant="ghost",
+                            size="2",
+                            on_click=FightState.simulate_fight(index),
+                            disabled=~fight.left | ~fight.right,
+                        ),
                     ),
                     width="10em",
                 ),
@@ -59,7 +72,7 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                 spacing="2",
             ),
             rx.cond(
-                fight.simulated,
+                fight.simulated & fight.showed,
                 rx.fragment(
                     rx.divider(),
                     rx.hstack(
