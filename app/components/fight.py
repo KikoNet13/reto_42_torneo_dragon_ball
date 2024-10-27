@@ -8,41 +8,46 @@ from app.components.fighter import (
     fighter_tbd_card,
 )
 from app.components.fighter_in_fight import fighter_health
+from app.components.event import event
+
+from app.states.fight import FightState
 
 
-class FightComponent(rx.ComponentState):
-    @classmethod
-    def create(cls, fight: Fight = Fight(), **props):
-        return super().create(fight=fight, **props)
-
-    @classmethod
-    def get_component(cls, **props) -> rx.Component:
-        cls.fight = props.pop("fight", Fight())
-        return rx.card(
+def fight_component(fight: Fight, index: int) -> rx.Component:
+    return rx.card(
+        rx.vstack(
             rx.hstack(
                 rx.hstack(
                     rx.cond(
-                        cls.fight.left,
-                        fighter_left(cls.fight.left.fighter),
+                        fight.left,
+                        fighter_left(
+                            fight.left.fighter,
+                            # Se compara el contenido porque no hay id
+                            fight.left.fighter.to_string() == fight.winner.to_string(),
+                        ),
                         fighter_tbd_card(),
                     ),
                     width="100%",
                     justify="end",
                 ),
-                rx.box(
+                rx.center(
                     rx.button(
                         rx.icon("swords"),
                         variant="ghost",
                         size="2",
-                        on_click=cls.simulate_fight,
-                        disabled=cls.fight.simulated,
+                        on_click=FightState.simulate_fight(index),
+                        disabled=fight.simulated | ~fight.left | ~fight.right,
                     ),
-                    padding_x="2em",
+                    width="10em",
                 ),
                 rx.hstack(
                     rx.cond(
-                        cls.fight.right,
-                        fighter_right(cls.fight.right.fighter),
+                        fight.right,
+                        fighter_right(
+                            fight.right.fighter,
+                            # Se compara el contenido porque no hay id
+                            fight.right.fighter.to_string() == fight.winner.to_string(),
+                        ),
                         fighter_tbd_card(),
                     ),
                     width="100%",
@@ -53,11 +58,27 @@ class FightComponent(rx.ComponentState):
                 align="center",
                 spacing="2",
             ),
-            width="100%",
-        )
-
-    async def simulate_fight(self):
-        self.fight.simulated = True
-
-
-fight = FightComponent.create
+            rx.cond(
+                fight.simulated,
+                rx.fragment(
+                    rx.divider(),
+                    rx.hstack(
+                        fighter_health(fight.left.health, is_left=True),
+                        rx.center(rx.icon("clock"), width="10em"),
+                        fighter_health(fight.right.health, is_left=False),
+                        align="center",
+                        justify="center",
+                        width="100%",
+                    ),
+                    rx.scroll_area(
+                        rx.vstack(
+                            rx.foreach(fight.events.reverse(), event),
+                            width="100%",
+                        ),
+                        max_height="20em",
+                    ),
+                ),
+            ),
+        ),
+        width="100%",
+    )

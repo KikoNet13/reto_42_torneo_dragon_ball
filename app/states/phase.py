@@ -9,13 +9,13 @@ from app.states.tournament import TournamentState
 
 
 class PhaseState(TournamentState):
-    speed: int = 50
+    speed: int = 75
     delay: float = 1
 
     @rx.var
     def phase(self) -> Phase | None:
         if self.tournament and self.current_phase_pos is not None:
-            return self.tournament.phases[self.current_phase_pos].__copy__()
+            return self.tournament.phases[self.current_phase_pos].__wrapped__
         return None
 
     @rx.var
@@ -52,10 +52,8 @@ class PhaseState(TournamentState):
                 time_elapsed += default_sleep
 
         for fight in self.phase.fights:
-            await controlled_sleep()
             fight.left = self._new_fighter_in_fight()
-            yield
+            yield await controlled_sleep()
 
-            await controlled_sleep()
             fight.right = self._new_fighter_in_fight()
-            yield
+            yield await controlled_sleep()

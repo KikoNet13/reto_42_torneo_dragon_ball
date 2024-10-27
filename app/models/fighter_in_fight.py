@@ -23,7 +23,6 @@ class Condition(Enum):
 class FighterInFight(rx.Base):
     fighter: Fighter
     condition: Condition
-    planned_actions: list[Action] = []
     health: int = 100
 
     _min_attack: int
@@ -58,7 +57,6 @@ class FighterInFight(rx.Base):
         self._max_speed: int = int(
             min(self.fighter.speed * self.condition * MAX_MODIFIER, MAX)
         )
-        self._generate_actions()
 
     def _get_attack(self) -> int:
         return randint(self._min_attack, self._max_attack)
@@ -69,22 +67,8 @@ class FighterInFight(rx.Base):
     def _get_speed(self) -> int:
         return randint(self._min_speed, self._max_speed)
 
-    def _generate_actions(self):
-        current_fight_time = 0
-        for _ in range(100):
-            speed = self._get_speed()
-            pace = round(100 / speed, 2)
-            current_fight_time += pace
-            self.planned_actions.append(
-                Action(
-                    time=current_fight_time,
-                    speed=speed,
-                    attack=self._get_attack(),
-                    defense=self._get_defense(),
-                ),
-            )
+    def next_attack(self) -> Action:
+        return Action.attack(self._get_speed(), self._get_attack())
 
-    def next_action(self) -> Action:
-        for action in self.planned_actions:
-            if not action.done:
-                return action
+    def next_defense(self) -> Action:
+        return Action.defense(self._get_defense())
