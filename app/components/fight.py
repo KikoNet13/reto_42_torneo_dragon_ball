@@ -7,7 +7,7 @@ from app.components.fighter import (
     fighter_right,
     fighter_tbd_card,
 )
-from app.components.fighter_in_fight import fighter_health
+from app.components.fighter_in_fight import fighter_health, fighter_condition
 from app.components.event import event
 
 from app.states.fight import FightState
@@ -29,6 +29,10 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                     ),
                     width="100%",
                     justify="end",
+                ),
+                rx.cond(
+                    fight.left,
+                    fighter_condition(fight.left.condition),
                 ),
                 rx.center(
                     rx.cond(
@@ -55,6 +59,10 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                         ),
                     ),
                     width="10em",
+                ),
+                rx.cond(
+                    fight.right,
+                    fighter_condition(fight.right.condition),
                 ),
                 rx.hstack(
                     rx.cond(
