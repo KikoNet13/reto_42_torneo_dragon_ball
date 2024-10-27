@@ -27,6 +27,13 @@ class PhaseState(TournamentState):
             )
         return False
 
+    @rx.var
+    def is_ready_to_simulate(self) -> bool:
+        if self.phase:
+            if all(fight.left and fight.right for fight in self.phase.fights):
+                return any(not fight.simulated for fight in self.phase.fights)
+        return False
+
     def set_delay(self, value: list[int]):
         self.speed = value[0]
         self.delay = 4 + (self.speed - 1) * -0.04

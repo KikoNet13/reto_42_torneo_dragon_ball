@@ -48,4 +48,3 @@ class TournamentState(rx.State):
     def on_mount(self) -> None:
         if not self.tournament:
             self.tournament = Tournament(fighters=[])
-        print("TournamentState.on_mount")

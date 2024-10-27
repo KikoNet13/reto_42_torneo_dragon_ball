@@ -17,7 +17,6 @@ class FormState(FightersInputState):
                     [fighter.speed, fighter.attack, fighter.defense],
                 )
             ):
-                print([fighter.speed, fighter.attack, fighter.defense])
                 return rx.window_alert(
                     "Las estadísticas de los luchadores deben estar entre 1 y 100"
                 )

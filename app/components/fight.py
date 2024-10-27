@@ -43,12 +43,15 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                             size="2",
                             on_click=FightState.toggle_show(index),
                         ),
-                        rx.button(
-                            rx.icon("swords"),
-                            variant="ghost",
-                            size="2",
-                            on_click=FightState.simulate_fight(index),
-                            disabled=~fight.left | ~fight.right,
+                        rx.tooltip(
+                            rx.button(
+                                rx.icon("swords"),
+                                variant="ghost",
+                                size="2",
+                                on_click=FightState.simulate_fight(index),
+                                disabled=~fight.left | ~fight.right,
+                            ),
+                            content="Simular combate",
                         ),
                     ),
                     width="10em",

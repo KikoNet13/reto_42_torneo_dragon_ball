@@ -7,6 +7,7 @@ from app.components.delay_modal import delay_modal
 
 from app.states.tournament import TournamentState
 from app.states.phase import PhaseState
+from app.states.fight import FightState
 
 
 def tournament() -> rx.Component:
@@ -26,6 +27,14 @@ def tournament() -> rx.Component:
                     "Sortear",
                     on_click=PhaseState.draw,
                     disabled=~PhaseState.is_drawable,
+                ),
+                rx.tooltip(
+                    rx.button(
+                        rx.icon("swords"),
+                        on_click=FightState.simulate_all,
+                        disabled=~PhaseState.is_ready_to_simulate,
+                    ),
+                    content="Simular todos los combates",
                 ),
                 delay_modal(),
                 align="center",

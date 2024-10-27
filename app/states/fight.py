@@ -46,6 +46,7 @@ class FightState(PhaseState):
 
     @rx.background
     async def simulate_fight(self, index: int):
+        print(f"Simulating fight {index}")
         next_phase = None
         if not self.is_last_phase:
             next_phase = self.tournament.phases[self.current_phase_pos + 1]
@@ -113,3 +114,10 @@ class FightState(PhaseState):
                 next_phase.fighters.append(fight.winner)
         else:
             self.winner = fight.winner
+
+    def simulate_all(self):
+        print("Simulating all fights")
+        for i in range(len(self.phase.fights)):
+            if not self.phase.fights[i].simulated:
+                yield FightState.simulate_fight(i)
+                print(f"Simulated fight {i}")

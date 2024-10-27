@@ -3,6 +3,7 @@
 ## Pendiente
 
 - **
+- [04](04.md): Despliegue
 
 ## Desarrollo
 

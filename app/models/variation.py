@@ -19,4 +19,4 @@ class Variation(rx.Base):
         )
 
     def get_random_number(self) -> int:
-        return max(0, min(100, int(normalvariate(mu=self.mu, sigma=self.sigma))))
+        return max(1, min(100, int(normalvariate(mu=self.mu, sigma=self.sigma))))

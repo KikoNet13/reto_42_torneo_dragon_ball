@@ -19,14 +19,16 @@ class IndexState(rx.State):
     async def on_load(self) -> None:
         # substates = self.get_parent_state().get_substates()
         # for substate in substates:
-        #     print(substate)
         #     state = await self.get_state(substate)
         #     state.reset()
+        pass
 
-        print("IndexState.on_load")
 
-
-@rx.page(route="/", on_load=IndexState.on_load)
+@rx.page(
+    route="/",
+    on_load=IndexState.on_load,
+    title="Torneo Dragon Ball",
+)
 def index() -> rx.Component:
     return rx.container(
         rx.vstack(
@@ -89,11 +91,14 @@ def index() -> rx.Component:
 
 
 app = rx.App(
-    title="Torneo Dragon Ball",
     style={
         ".rt-ScrollAreaViewport > *": {
             "min-width": "100% !important",
-        }
+        },
+        "background": "radial-gradient(circle, #222222, #000000)",
     },
+    theme=rx.theme(
+        appearance="dark",
+        panel_background="solid",
+    ),
 )
-app.add_page(index)
