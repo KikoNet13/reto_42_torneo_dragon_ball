@@ -59,6 +59,22 @@ def tournament() -> rx.Component:
             width="100%",
         ),
         phase(),
+        rx.cond(
+            TournamentState.is_last_phase & TournamentState.winner,
+            rx.vstack(
+                rx.icon(
+                    "medal",
+                    size=256,
+                    stroke_width=1,
+                ),
+                rx.heading(
+                    TournamentState.winner.name,
+                ),
+                spacing="2",
+                align="center",
+                width="100%",
+            ),
+        ),
         width="100%",
         spacing="4",
         id="form",
