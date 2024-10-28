@@ -58,9 +58,15 @@ def fighter_left(fighter: Fighter, is_bold: bool = False) -> rx.Component:
             justify="between",
             align="end",
         ),
-        rx.avatar(
-            fallback=fighter.average.to_string(),
-            size="4",
+        rx.tooltip(
+            # No funciona el tooltip con el avatar
+            rx.box(
+                rx.avatar(
+                    fallback=fighter.average.to_string(),
+                    size="4",
+                ),
+            ),
+            content="Media",
         ),
         align="center",
         justify="start",
@@ -69,9 +75,15 @@ def fighter_left(fighter: Fighter, is_bold: bool = False) -> rx.Component:
 
 def fighter_right(fighter: Fighter, is_bold: bool = False) -> rx.Component:
     return rx.hstack(
-        rx.avatar(
-            fallback=fighter.average.to_string(),
-            size="4",
+        rx.tooltip(
+            # No funciona el tooltip con el avatar
+            rx.box(
+                rx.avatar(
+                    fallback=fighter.average.to_string(),
+                    size="4",
+                ),
+            ),
+            content="Media",
         ),
         rx.vstack(
             fighter_name(fighter.name, is_bold),

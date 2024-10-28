@@ -37,15 +37,22 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                 rx.center(
                     rx.cond(
                         fight.simulated,
-                        rx.button(
-                            rx.cond(
-                                fight.showed,
-                                rx.icon("eye-off"),
-                                rx.icon("eye"),
+                        rx.tooltip(
+                            rx.button(
+                                rx.cond(
+                                    fight.showed,
+                                    rx.icon("eye-off"),
+                                    rx.icon("eye"),
+                                ),
+                                variant="ghost",
+                                size="2",
+                                on_click=FightState.toggle_show(index),
                             ),
-                            variant="ghost",
-                            size="2",
-                            on_click=FightState.toggle_show(index),
+                            content=rx.cond(
+                                fight.showed,
+                                "Ocultar eventos",
+                                "Mostrar eventos",
+                            ),
                         ),
                         rx.tooltip(
                             rx.button(

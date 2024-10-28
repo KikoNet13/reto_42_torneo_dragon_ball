@@ -27,7 +27,7 @@ def form() -> rx.Component:
                 nationalities_modal(),
             ),
             rx.button(
-                "Empezar",
+                "Iniciar torneo",
                 on_click=FormState.start_button_on_click,
             ),
             spacing="2",

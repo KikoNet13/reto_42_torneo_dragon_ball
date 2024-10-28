@@ -43,10 +43,36 @@ def index() -> rx.Component:
                     href="https://retosdeprogramacion.com/",
                     is_external=True,
                 ),
-                rx.heading(
-                    rx.code("42", size="8"),
-                    " Torneo Dragon Ball",
-                    size="8",
+                rx.hstack(
+                    rx.heading(
+                        rx.code("42", size="8"),
+                        " Torneo Dragon Ball",
+                        size="8",
+                        trim="both",
+                    ),
+                    # rx.link(
+                    #     rx.image(
+                    #         src="/github.svg",
+                    #         width="2.5em",
+                    #         height="2.5em",
+                    #     ),
+                    #     href="https://github.com/KikoNet13/reto_42_torneo_dragon_ball",
+                    #     is_external=True,
+                    # ),
+                    rx.link(
+                        rx.button(
+                            rx.icon(
+                                "github",
+                                size=28,
+                            ),
+                            variant="soft",
+                            size="3",
+                        ),
+                        href="https://github.com/KikoNet13/reto_42_torneo_dragon_ball",
+                        is_external=True,
+                    ),
+                    align="center",
+                    justify="center",
                 ),
                 align="center",
                 justify="center",

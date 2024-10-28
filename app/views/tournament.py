@@ -15,9 +15,12 @@ def tournament() -> rx.Component:
         rx.hstack(
             rx.hstack(
                 question_modal(
-                    trigger=rx.button(
-                        rx.icon("trash-2"),
-                        color_scheme="tomato",
+                    trigger=rx.tooltip(
+                        rx.button(
+                            rx.icon("trash-2"),
+                            color_scheme="tomato",
+                        ),
+                        content="Reiniciar torneo",
                     ),
                     title="Reiniciar torneo",
                     description="¿Estás seguro de que quieres reiniciar el torneo?",
@@ -50,15 +53,21 @@ def tournament() -> rx.Component:
                 width="100%",
             ),
             rx.hstack(
-                rx.button(
-                    rx.icon("arrow-left"),
-                    disabled=TournamentState.is_first_phase,
-                    on_click=TournamentState.previous_button_on_click,
+                rx.tooltip(
+                    rx.button(
+                        rx.icon("arrow-left"),
+                        disabled=TournamentState.is_first_phase,
+                        on_click=TournamentState.previous_button_on_click,
+                    ),
+                    content="Anterior fase",
                 ),
-                rx.button(
-                    rx.icon("arrow-right"),
-                    disabled=TournamentState.is_last_phase,
-                    on_click=TournamentState.next_button_on_click,
+                rx.tooltip(
+                    rx.button(
+                        rx.icon("arrow-right"),
+                        disabled=TournamentState.is_last_phase,
+                        on_click=TournamentState.next_button_on_click,
+                    ),
+                    content="Siguiente fase",
                 ),
                 align="center",
                 justify="end",

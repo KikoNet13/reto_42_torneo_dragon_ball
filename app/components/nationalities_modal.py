@@ -35,16 +35,22 @@ def popover_content() -> rx.Component:
 
 
 def nationalities_modal() -> rx.Component:
-    return rx.popover.root(
-        rx.popover.trigger(
-            rx.button(
-                rx.icon(
-                    tag="globe",
+    return rx.tooltip(
+        # No funciona el tooltip con el popover
+        rx.box(
+            rx.popover.root(
+                rx.popover.trigger(
+                    rx.button(
+                        rx.icon(
+                            tag="globe",
+                        ),
+                        variant="outline",
+                    ),
                 ),
-                variant="outline",
+                rx.popover.content(
+                    popover_content(),
+                ),
             ),
         ),
-        rx.popover.content(
-            popover_content(),
-        ),
+        content="Nacionalidades",
     )
