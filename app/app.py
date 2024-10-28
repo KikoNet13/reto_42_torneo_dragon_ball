@@ -17,10 +17,7 @@ class IndexState(rx.State):
         state.on_mount()
 
     async def on_load(self) -> None:
-        # substates = self.get_parent_state().get_substates()
-        # for substate in substates:
-        #     state = await self.get_state(substate)
-        #     state.reset()
+        # self.reset_all()
         pass
 
 
@@ -32,7 +29,7 @@ class IndexState(rx.State):
 def index() -> rx.Component:
     return rx.container(
         rx.vstack(
-            rx.icon_button("refresh-ccw", on_click=IndexState.reset_all),
+            # rx.icon_button("refresh-ccw", on_click=IndexState.reset_all),
             rx.vstack(
                 rx.link(
                     rx.code(
@@ -112,7 +109,7 @@ def index() -> rx.Component:
         min_height="100vh",
         align="center",
         justify="center",
-        # on_mount=State.on_mount,
+        on_mount=State.on_mount,
     )
 
 

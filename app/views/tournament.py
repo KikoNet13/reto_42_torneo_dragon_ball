@@ -14,17 +14,20 @@ def tournament() -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.hstack(
-                question_modal(
-                    trigger=rx.tooltip(
-                        rx.button(
-                            rx.icon("trash-2"),
-                            color_scheme="tomato",
+                rx.tooltip(
+                    # El tooltip no funciona como trigger
+                    rx.box(
+                        question_modal(
+                            trigger=rx.button(
+                                rx.icon("trash-2"),
+                                color_scheme="tomato",
+                            ),
+                            title="Reiniciar torneo",
+                            description="¿Estás seguro de que quieres reiniciar el torneo?",
+                            on_click=TournamentState.reset_button_on_click,
                         ),
-                        content="Reiniciar torneo",
                     ),
-                    title="Reiniciar torneo",
-                    description="¿Estás seguro de que quieres reiniciar el torneo?",
-                    on_click=TournamentState.reset_button_on_click,
+                    content="Reiniciar torneo",
                 ),
                 rx.button(
                     "Sortear",
