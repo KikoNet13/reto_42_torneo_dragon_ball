@@ -12,18 +12,15 @@ class Fighter(rx.Base):
     def average(self) -> int:
         return (self.speed + self.attack + self.defense) // 3
 
-    # def dict(self, **kwargs) -> dict:
-    #     # Obtén el diccionario estándar con super()
-    #     result = super().dict(**kwargs)
+    # KikoNet13: Si se sobreescribe la clase rx.Base con esto, las propiedades se pueden usar en el frontend
+    def dict(self, **kwargs) -> dict:
+        result = super().dict(**kwargs)
 
-    #     # Itera sobre los atributos de la clase
-    #     for attr_name in dir(self):
-    #         # Verifica si es una propiedad
-    #         if isinstance(getattr(self.__class__, attr_name, None), property):
-    #             # Añade la propiedad al diccionario
-    #             result[attr_name] = getattr(self, attr_name)
+        for attr_name in dir(self):
+            if isinstance(getattr(self.__class__, attr_name, None), property):
+                result[attr_name] = getattr(self, attr_name)
 
-    #     return result
+        return result
 
     def set_column(self, column: int, value: str | int) -> None:
         if column == 0:

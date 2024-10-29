@@ -31,7 +31,7 @@ def fighter_condition_detail(icon_tag: str, color: str) -> rx.Component:
         rx.icon(
             icon_tag,
             color=rx.color(color, 8),
-            size=48,
+            # size=48,
             stroke_width=4,
         ),
         content="Condición",

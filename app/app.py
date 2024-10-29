@@ -6,6 +6,9 @@ from app.views.tournament import tournament
 from app.state import State, View
 from app.states.tournament import TournamentState
 
+# He sobreescrito el método rx.Base.dict() para que incluya las @property
+# Hay un error con los estados anidados que se soluciona con esto: https://github.com/reflex-dev/reflex/commit/4cec2d152c6d8f5fbdf26a0fd10cd1220b96d7c9
+
 
 class IndexState(rx.State):
     async def reset_all(self) -> None:

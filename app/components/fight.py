@@ -30,9 +30,12 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                     width="100%",
                     justify="end",
                 ),
-                rx.cond(
-                    fight.left,
-                    fighter_condition(fight.left.condition),
+                rx.center(
+                    rx.cond(
+                        fight.left,
+                        fighter_condition(fight.left.condition),
+                    ),
+                    width="4em",
                 ),
                 rx.center(
                     rx.cond(
@@ -66,10 +69,14 @@ def fight_component(fight: Fight, index: int) -> rx.Component:
                         ),
                     ),
                     width="10em",
+                    height="4em",
                 ),
-                rx.cond(
-                    fight.right,
-                    fighter_condition(fight.right.condition),
+                rx.center(
+                    rx.cond(
+                        fight.right,
+                        fighter_condition(fight.right.condition),
+                    ),
+                    width="4em",
                 ),
                 rx.hstack(
                     rx.cond(
